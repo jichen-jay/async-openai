@@ -1,8 +1,9 @@
 [package]
-name = "async-openai"
+name = "async-openai-wasi"
 version = "0.16.2"
 authors = [
-    "Himanshu Neema"
+    "Himanshu Neema",
+    "DarumaDocker"
 ]
 categories = ["api-bindings", "web-programming", "asynchronous"]
 keywords = ["openai", "async", "openapi", "ai"]
@@ -11,31 +12,36 @@ edition = "2021"
 rust-version = "1.65"
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/64bit/async-openai"
-repository = "https://github.com/64bit/async-openai"
+homepage = "https://github.com/flows-network/async-openai"
+repository = "https://github.com/flows-network/async-openai"
+
+[lib]
+name = "async_openai"
+path = "src/lib.rs"
 
 [features]
-default = ["rustls"]
+default = ["wasmedge-tls"]
 # Enable rustls for TLS support
-rustls = ["reqwest/rustls-tls-native-roots"]
+# rustls = ["reqwest/rustls-tls-native-roots"]
 # Enable native-tls for TLS support
-native-tls = ["reqwest/native-tls"]
+# native-tls = ["reqwest/native-tls"]
 # Remove dependency on OpenSSL
-native-tls-vendored = ["reqwest/native-tls-vendored"]
+# native-tls-vendored = ["reqwest/native-tls-vendored"]
+wasmedge-tls=["reqwest_wasi/wasmedge-tls"]
 
 [dependencies]
 backoff = {version = "0.4.0", features = ["tokio"] }
 base64 = "0.21.0"
 futures = "0.3.26"
 rand = "0.8.5"
-reqwest = { version = "0.11.14", features = ["json", "stream", "multipart"],default-features = false }
-reqwest-eventsource = "0.4.0"
+reqwest_wasi = { version = "0.11.16", features = ["json", "stream", "multipart"], default-features = false }
+reqwest-eventsource-wasi = "0.5.0"
 serde = { version = "1.0.152", features = ["derive", "rc"] }
 serde_json = "1.0.93"
 thiserror = "1.0.38"
-tokio = { version = "1.25.0", features = ["fs", "macros"] }
-tokio-stream = "0.1.11"
-tokio-util = { version = "0.7.7", features = ["codec", "io-util"] }
+tokio_wasi = { version = "1.25.0", features = ["fs", "macros"] }
+tokio-stream_wasi = "0.1.11"
+tokio-util_wasi = { version = "0.7.5", features = ["codec", "io-util"] }
 tracing = "0.1.37"
 derive_builder = "0.12.0"
 async-convert = "1.0.0"
