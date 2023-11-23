@@ -1,16 +1,20 @@
 use std::path::Path;
 
+use bytes::Bytes;
 use reqwest::Body;
-use tokio_util::codec::{BytesCodec, FramedRead};
+// use tokio_util::codec::{BytesCodec, FramedRead};
 
 use crate::error::OpenAIError;
 
 pub(crate) async fn file_stream_body<P: AsRef<Path>>(path: P) -> Result<Body, OpenAIError> {
-    let file = tokio::fs::File::open(path.as_ref())
-        .await
-        .map_err(|e| OpenAIError::FileReadError(e.to_string()))?;
-    let stream = FramedRead::new(file, BytesCodec::new());
-    let body = Body::wrap_stream(stream);
+    // let file = tokio::fs::File::open(path.as_ref())
+    //     .await
+    //     .map_err(|e| OpenAIError::FileReadError(e.to_string()))?;
+    // let stream = FramedRead::new(file, BytesCodec::new());
+    // let body = Body::wrap_stream(stream);
+    let file_content =
+        std::fs::read(path.as_ref()).map_err(|e| OpenAIError::FileReadError(e.to_string()))?;
+    let body = Body::from(Bytes::from(file_content));
     Ok(body)
 }
 
