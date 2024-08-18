@@ -1480,6 +1480,7 @@ pub struct CreateChatCompletionRequest {
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum FinishReason {
+    Eos,
     Stop,
     Length,
     ToolCalls,
